@@ -12,9 +12,16 @@
         <div class="container py-5">
             <div class="row">
                 <div class="col-lg-8">
-                    <div>
-                        <a class="btn btn-sum btn-outline-dark" href="{{ route('posts.edit', ['post' => $post]) }}">Edit</a>
-                        <a class="btn btn-sum btn-outline-danger" href="">Delete</a>
+                    <div class="row mb-4">
+                        <a class="btn btn-sum btn-outline-dark mr-2" href="{{ route('posts.edit', ['post' => $post]) }}">Edit</a>
+                        <form action="{{ route('posts.destroy', ['post' => $post]) }}"
+                              method="POST"
+                              onsubmit="return confirm('Do you really want to delete the form?');"
+                        >
+                            <button type="submit" class="btn btn-sum btn-outline-danger" href="">Delete</button>
+                            @csrf
+                            @method('DELETE')
+                        </form>
                     </div>
                     <br></br>
                     <div class="mb-5">
