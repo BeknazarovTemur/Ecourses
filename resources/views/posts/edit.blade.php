@@ -50,9 +50,9 @@
                             @enderror
                         </div>
                         <div class="text-center">
-                            <button class="btn btn-primary py-3 px-5" type="submit" id="sendMessageButton">SAVE</button>
+                            <button class="btn btn-outline-dark py-3 px-5" type="submit">SAVE</button>
+                            <a href="{{ route('posts.show', ['post' => $post]) }}" class="btn btn-outline-danger py-3 px-5" >CANCEL</a>
                         </div>
-
                     </form>
                 </div>
             </div>
