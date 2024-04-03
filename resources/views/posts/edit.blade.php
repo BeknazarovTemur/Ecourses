@@ -10,17 +10,17 @@
     <!-- Edit Start -->
     <div class="container py-5">
         <div class="text-center mb-5">
-            <h1>Create Posts</h1>
+            <h1>Edit Post</h1>
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="contact-form bg-secondary rounded p-5">
                     <div id="success"></div>
-                    <form action="{{route('posts.update')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('posts.update', ['post' => $post])}}" method="POST" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
                         <div class="control-group mb-4">
-                            <input type="text" class="form-control border-0 p-4" name="title" value="{{ old('title') }}" placeholder="Title"/>
+                            <input type="text" class="form-control border-0 p-4" name="title" value="{{ $post->title }}" placeholder="Title"/>
                             @error('title')
                             <p class="help-block text-danger">{{$message}}</p>
                             @enderror
@@ -32,19 +32,19 @@
                             @enderror
                         </div>
                         <div class="control-group mb-4">
-                            <textarea class="form-control border-0 py-3 px-4" rows="5" name="contents" id="contents" placeholder="Content">{{ old('contents') }}</textarea>
+                            <textarea class="form-control border-0 py-3 px-4" rows="5" name="contents" id="contents" placeholder="Content">{{ $post->contents }}</textarea>
                             @error('contents')
                             <p class="help-block text-danger">{{$message}}</p>
                             @enderror
                         </div>
                         <div class="control-group mb-4">
-                            <input type="text" class="form-control border-0 p-4" name="theme" value="{{ old('theme') }}" placeholder="Theme"/>
+                            <input type="text" class="form-control border-0 p-4" name="theme" value="{{ $post->theme }}" placeholder="Theme"/>
                             @error('theme')
                             <p class="help-block text-danger">{{$message}}</p>
                             @enderror
                         </div>
                         <div class="control-group mb-4">
-                            <textarea class="form-control border-0 py-3 px-4" rows="5" id="info" name="info" placeholder="Information">{{ old('info') }}</textarea>
+                            <textarea class="form-control border-0 py-3 px-4" rows="5" id="info" name="info" placeholder="Information">{{ $post->info }}</textarea>
                             @error('info')
                             <p class="help-block text-danger">{{$message}}</p>
                             @enderror
