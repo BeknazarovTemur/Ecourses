@@ -1,13 +1,21 @@
 <?php
 
-use App\Http\Controllers\PageController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\{
+    PageController,
+    PostController,
+    CommentController
+};
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [PageController::class,'home'])->name('home');
-Route::get('/about', [PageController::class,'about'])->name('about');
-Route::get('/course', [PageController::class,'course'])->name('course');
-Route::get('/teacher', [PageController::class,'teacher'])->name('teacher');
-Route::get('/contact', [PageController::class,'contact'])->name('contact');
+Route::controller(PageController::class)->group(function () {
+    Route::get('/', 'home')->name('home');
+    Route::get('/about', 'about')->name('about');
+    Route::get('/course', 'course')->name('course');
+    Route::get('/teacher', 'teacher')->name('teacher');
+    Route::get('/contact', 'contact')->name('contact');
+});
 
-Route::resource('posts', PostController::class);
+Route::resources([
+    'posts' => PostController::class,
+    'comments' => CommentController::class,
+]);

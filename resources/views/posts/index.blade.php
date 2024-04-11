@@ -23,31 +23,12 @@
                                         <p class="text-primary m-0">{{ $post -> created_at }}</p>
                                     </a>
                                 </div>
+                                <a class="text-danger text-uppercase font-weight-medium m-0">{{ $post -> category -> name }}</a>
                             </div>
 
                         @endforeach
 
-                        <div class="col-12">
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination pagination-lg justify-content-center mb-0">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                        {{ $posts->links() }}
                     </div>
                 </div>
 
@@ -107,7 +88,7 @@
                         @foreach($recent_posts as $post)
 
                             <div class="d-flex align-items-center border-bottom mb-3 pb-3">
-                                <img class="img-fluid rounded" src="/img/blog-1.jpg" style="width: 80px; height: 80px; object-fit: cover;" alt="">
+                                <img class="img-fluid rounded" src="{{ asset('storage/'.$post->photo) }}" style="width: 80px; height: 80px; object-fit: cover;" alt="">
                                 <div class="d-flex flex-column pl-3">
                                     <a class="text-dark mb-2" href="{{ route('posts.show', ['post' => $post -> id]) }}">{{ $post->title }}</a>
                                 </div>

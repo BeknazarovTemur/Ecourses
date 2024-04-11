@@ -16,17 +16,17 @@
                         <a class="btn btn-sum btn-outline-dark mr-2" href="{{ route('posts.edit', ['post' => $post]) }}">Edit</a>
                         <form action="{{ route('posts.destroy', ['post' => $post]) }}"
                               method="POST"
-                              onsubmit="return confirm('Do you really want to delete the form?');"
-                        >
+                              onsubmit="return confirm('Do you really want to delete the form?');">
+
                             <button type="submit" class="btn btn-sum btn-outline-danger" href="">Delete</button>
                             @csrf
                             @method('DELETE')
                         </form>
                     </div>
-                    <br></br>
                     <div class="mb-5">
                         <h6 class="text-primary mb-3">{{ $post -> created_at }}</h6>
-                        <h1 class="mb-5">{{ $post -> title }}</h1>
+                        <h1 class="mb-1">{{ $post -> title }}</h1>
+                        <a class="text-danger text-uppercase font-weight-medium m-0">{{ $post -> category -> name }}</a>
                         <img class="img-fluid rounded w-100 mb-4" src="/img/carousel-1.jpg" alt="Image">
                         <p>{{ $post -> contents }}</p>
                         <h2 class="mb-4">{{ $post -> theme }}</h2>
@@ -36,44 +36,46 @@
 
                     <!-- Comment List -->
                     <div class="mb-5">
-                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">3 Comments</h3>
-                        <div class="media mb-4">
-                            <img src="/img/user.jpg" alt="Image" class="img-fluid rounded-circle mr-3 mt-1"
-                                 style="width: 45px;">
-                            <div class="media-body">
-                                <h6>John Doe <small><i>01 Jan 2045 at 12:00pm</i></small></h6>
-                                <p>Diam amet duo labore stet elitr ea clita ipsum, tempor labore accusam ipsum et no at.
-                                    Kasd diam tempor rebum magna dolores sed sed eirmod ipsum. Gubergren clita aliquyam
-                                    consetetur sadipscing, at tempor amet ipsum diam tempor consetetur at sit.</p>
-                                <button class="btn btn-sm btn-secondary">Reply</button>
+                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">{{ $post->comments()->count() }} Comments</h3>
+                        @foreach($post->comments as $comment)
+                            <div class="media mb-4">
+                                <img src="/img/user.jpg" alt="Image" class="img-fluid rounded-circle mr-3 mt-1"
+                                     style="width: 45px;">
+                                <div class="media-body">
+                                    <h6> {{ $comment->user->name }} <small><i>{{ $comment->created_at }}</i></small></h6>
+                                    <p>{{ $comment->body }}</p>
+                                    <button class="btn btn-sm btn-secondary">Reply</button>
+                                </div>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                     <br></br>
                     <br></br>
                     <!-- Comment Form -->
                     <div class="bg-secondary rounded p-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Leave a comment</h3>
-                        <form>
-                            <div class="form-group">
-                                <label for="name">Name *</label>
-                                <input type="text" class="form-control border-0" id="name">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email *</label>
-                                <input type="email" class="form-control border-0" id="email">
-                            </div>
-                            <div class="form-group">
-                                <label for="website">Website</label>
-                                <input type="url" class="form-control border-0" id="website">
-                            </div>
 
+{{--                            <div class="form-group">--}}
+{{--                                <label for="name">Name *</label>--}}
+{{--                                <input type="text" class="form-control border-0" id="name">--}}
+{{--                            </div>--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label for="email">Email *</label>--}}
+{{--                                <input type="email" class="form-control border-0" id="email">--}}
+{{--                            </div>--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label for="website">Website</label>--}}
+{{--                                <input type="url" class="form-control border-0" id="website">--}}
+{{--                            </div>--}}
+                        <form action="{{ route('comments.store') }}" method="POST">
+                            @csrf
                             <div class="form-group">
-                                <label for="message">Message *</label>
-                                <textarea id="message" cols="30" rows="5" class="form-control border-0"></textarea>
+                                <label for="message">Comment</label>
+                                <textarea name="body" cols="30" rows="5" class="form-control border-0"></textarea>
                             </div>
+                            <input type="hidden" name="post_id" value="{{ $post->id }}">
                             <div class="form-group mb-0">
-                                <input type="submit" value="Leave Comment" class="btn btn-primary py-md-2 px-md-4 font-weight-semi-bold">
+                                <input type="submit" value="Send" class="btn btn-primary py-md-2 px-md-4 font-weight-semi-bold">
                             </div>
                         </form>
                     </div>
@@ -136,7 +138,7 @@
                         @foreach($recent_posts as $post)
 
                             <div class="d-flex align-items-center border-bottom mb-3 pb-3">
-                                <img class="img-fluid rounded" src="/img/blog-1.jpg" style="width: 80px; height: 80px; object-fit: cover;" alt="">
+                                <img class="img-fluid rounded" src="{{ asset('storage/'.$post->photo) }}" style="width: 80px; height: 80px; object-fit: cover;" alt="">
                                 <div class="d-flex flex-column pl-3">
                                     <a class="text-dark mb-2" href="{{route('posts.show', ['post' => $post -> id])}}">{{ $post->title }}</a>
                                 </div>

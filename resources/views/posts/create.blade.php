@@ -25,6 +25,13 @@
                                 @enderror
                             </div>
                             <div class="control-group mb-4">
+                                <select name="category_id" class="rounded border-0 p-4">
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="control-group mb-4">
                                 <input name="photo" type="file" class="form-control border-0 p-4" id="subject" placeholder="Photo"/>
                                 @error('photo')
                                 <p class="help-block text-danger">{{ $message }}</p>
