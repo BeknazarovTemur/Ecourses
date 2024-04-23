@@ -14,7 +14,6 @@
                 <div class="col-lg-8">
                     <div class="row pb-3">
                         @foreach($posts as $post)
-
                             <div class="col-lg-6 mb-4">
                                 <div class="blog-item position-relative overflow-hidden rounded mb-2">
                                     <img class="img-fluid" src="{{ asset('storage/'.$post->photo) }}" alt="">
@@ -23,9 +22,10 @@
                                         <p class="text-primary m-0">{{ $post -> created_at }}</p>
                                     </a>
                                 </div>
-                                <a class="text-danger text-uppercase font-weight-medium m-0">{{ $post -> category -> name }}</a>
+                                <div class="d-flex mb-2">
+                                    <a class="text-danger text-uppercase font-weight-medium m-0">{{ $post -> category -> name }}</a>
+                                </div>
                             </div>
-
                         @endforeach
 
                         {{ $posts->links() }}
@@ -58,26 +58,12 @@
                     <div class="mb-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Categories</h3>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <a href="" class="text-decoration-none h6 m-0">Web Design</a>
-                                <span class="badge badge-primary badge-pill">150</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <a href="" class="text-decoration-none h6 m-0">Web Development</a>
-                                <span class="badge badge-primary badge-pill">131</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <a href="" class="text-decoration-none h6 m-0">Online Marketing</a>
-                                <span class="badge badge-primary badge-pill">78</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <a href="" class="text-decoration-none h6 m-0">Keyword Research</a>
-                                <span class="badge badge-primary badge-pill">56</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <a href="" class="text-decoration-none h6 m-0">Email Marketing</a>
-                                <span class="badge badge-primary badge-pill">98</span>
-                            </li>
+                            @foreach($categories as $category)
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                    <a href="" class="text-decoration-none h6 m-0">{{ $category->name }}</a>
+                                    <span class="badge badge-primary badge-pill">{{ $post->category->count() }}</span>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
 

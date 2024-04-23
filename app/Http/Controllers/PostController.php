@@ -12,11 +12,12 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::latest()->paginate(10);
+        $posts = Post::latest()->paginate(6);
 
         return view('posts.index')->with([
             'posts' => $posts,
-            'recent_posts' => Post::latest()->get()->take(3)
+            'recent_posts' => Post::latest()->get()->take(3),
+            'categories' => Category::all(),
         ]);
     }
 
@@ -51,7 +52,8 @@ class PostController extends Controller
     {
         return view('posts.show')->with([
             'post' => $post,
-            'recent_posts' => Post::latest()->get()->except($post->id)->take(3)
+            'recent_posts' => Post::latest()->get()->except($post->id)->take(3),
+            'categories' => Category::all(),
         ]);
     }
 

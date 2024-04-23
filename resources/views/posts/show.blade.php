@@ -26,7 +26,9 @@
                     <div class="mb-5">
                         <h6 class="text-primary mb-3">{{ $post -> created_at }}</h6>
                         <h1 class="mb-1">{{ $post -> title }}</h1>
-                        <a class="text-danger text-uppercase font-weight-medium m-0">{{ $post -> category -> name }}</a>
+                        <div class="d-flex mb-2">
+                            <a class="text-danger text-uppercase font-weight-medium m-0">{{ $post -> category -> name }}</a>
+                        </div>
                         <img class="img-fluid rounded w-100 mb-4" src="/img/carousel-1.jpg" alt="Image">
                         <p>{{ $post -> contents }}</p>
                         <h2 class="mb-4">{{ $post -> theme }}</h2>
@@ -108,26 +110,12 @@
                     <div class="mb-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Categories</h3>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <a href="" class="text-decoration-none h6 m-0">Web Design</a>
-                                <span class="badge badge-primary badge-pill">150</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <a href="" class="text-decoration-none h6 m-0">Web Development</a>
-                                <span class="badge badge-primary badge-pill">131</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <a href="" class="text-decoration-none h6 m-0">Online Marketing</a>
-                                <span class="badge badge-primary badge-pill">78</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <a href="" class="text-decoration-none h6 m-0">Keyword Research</a>
-                                <span class="badge badge-primary badge-pill">56</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                <a href="" class="text-decoration-none h6 m-0">Email Marketing</a>
-                                <span class="badge badge-primary badge-pill">98</span>
-                            </li>
+                            @foreach($categories as $category)
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                    <a href="" class="text-decoration-none h6 m-0">{{ $category->name }}</a>
+                                    <span class="badge badge-primary badge-pill">{{ $post->category->count() }}</span>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
 
