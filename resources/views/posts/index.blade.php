@@ -23,6 +23,12 @@
                                     </a>
                                 </div>
                                 <div class="d-flex mb-2">
+                                    @foreach($post->tags as $tag)
+                                        <a class="text-dark text-uppercase font-weight-medium">{{ $tag ->name }}</a>
+                                        <span class="text-primary px-2">|</span>
+                                    @endforeach
+                                </div>
+                                <div class="d-flex mb-2">
                                     <a class="text-danger text-uppercase font-weight-medium m-0">{{ $post -> category -> name }}</a>
                                 </div>
                             </div>
@@ -54,7 +60,6 @@
                         </form>
                     </div>
 
-                    <!-- Category List -->
                     <div class="mb-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Categories</h3>
                         <ul class="list-group list-group-flush">
@@ -67,7 +72,15 @@
                         </ul>
                     </div>
 
-                    <!-- Recent Post -->
+                    <div class="mb-5">
+                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Tag Cloud</h3>
+                        <div class="d-flex flex-wrap m-n1">
+                            @foreach($tags as $tag)
+                                <a href="" class="btn btn-outline-primary m-1">{{ $tag->name }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+
                     <div class="mb-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Recent Post</h3>
 
@@ -82,19 +95,6 @@
 
                         @endforeach
 
-                    </div>
-
-                    <!-- Tag Cloud -->
-                    <div class="mb-5">
-                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Tag Cloud</h3>
-                        <div class="d-flex flex-wrap m-n1">
-                            <a href="" class="btn btn-outline-primary m-1">Design</a>
-                            <a href="" class="btn btn-outline-primary m-1">Development</a>
-                            <a href="" class="btn btn-outline-primary m-1">Marketing</a>
-                            <a href="" class="btn btn-outline-primary m-1">SEO</a>
-                            <a href="" class="btn btn-outline-primary m-1">Writing</a>
-                            <a href="" class="btn btn-outline-primary m-1">Consulting</a>
-                        </div>
                     </div>
                 </div>
             </div>

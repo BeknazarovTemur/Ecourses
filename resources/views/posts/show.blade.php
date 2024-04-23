@@ -23,17 +23,18 @@
                             @method('DELETE')
                         </form>
                     </div>
+
                     <div class="mb-5">
-                        <h6 class="text-primary mb-3">{{ $post -> created_at }}</h6>
-                        <h1 class="mb-1">{{ $post -> title }}</h1>
                         <div class="d-flex mb-2">
-                            <a class="text-danger text-uppercase font-weight-medium m-0">{{ $post -> category -> name }}</a>
+                            @foreach(@$post->tags as $tag)
+                                <a class="text-dark text-uppercase font-weight-medium">{{ $tag->name }}</a>
+                                <span class="text-primary px-2">|</span>
+                            @endforeach
                         </div>
-                        <img class="img-fluid rounded w-100 mb-4" src="/img/carousel-1.jpg" alt="Image">
-                        <p>{{ $post -> contents }}</p>
-                        <h2 class="mb-4">{{ $post -> theme }}</h2>
-                        <img class="img-fluid rounded w-50 float-left mr-4 mb-3" src="{{ asset('storage/'.$post->photo) }}" alt="Image">
-                        <p>{{ $post -> info }}</p>
+                        <div class="d-flex mb-2">
+                            <a class="text-danger text-uppercase font-weight-medium" href="">{{ $post->category->name }}</a>
+                        </div>
+                        <h1 class="section-title mb-3">{{ $post->title }}</h1>
                     </div>
 
                     <!-- Comment List -->
@@ -57,18 +58,6 @@
                     <div class="bg-secondary rounded p-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Leave a comment</h3>
 
-{{--                            <div class="form-group">--}}
-{{--                                <label for="name">Name *</label>--}}
-{{--                                <input type="text" class="form-control border-0" id="name">--}}
-{{--                            </div>--}}
-{{--                            <div class="form-group">--}}
-{{--                                <label for="email">Email *</label>--}}
-{{--                                <input type="email" class="form-control border-0" id="email">--}}
-{{--                            </div>--}}
-{{--                            <div class="form-group">--}}
-{{--                                <label for="website">Website</label>--}}
-{{--                                <input type="url" class="form-control border-0" id="website">--}}
-{{--                            </div>--}}
                         <form action="{{ route('comments.store') }}" method="POST">
                             @csrf
                             <div class="form-group">
@@ -80,6 +69,7 @@
                                 <input type="submit" value="Send" class="btn btn-primary py-md-2 px-md-4 font-weight-semi-bold">
                             </div>
                         </form>
+
                     </div>
                 </div>
 
@@ -106,7 +96,6 @@
                         </form>
                     </div>
 
-                    <!-- Category List -->
                     <div class="mb-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Categories</h3>
                         <ul class="list-group list-group-flush">
@@ -119,7 +108,15 @@
                         </ul>
                     </div>
 
-                    <!-- Recent Post -->
+                    <div class="mb-5">
+                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Tag Cloud</h3>
+                        <div class="d-flex flex-wrap m-n1">
+                            @foreach($tags as $tag)
+                                <a href="" class="btn btn-outline-primary m-1">{{ $tag->name }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+
                     <div class="mb-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Recent Post</h3>
 
@@ -134,19 +131,6 @@
 
                         @endforeach
 
-                    </div>
-
-                    <!-- Tag Cloud -->
-                    <div class="mb-5">
-                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Tag Cloud</h3>
-                        <div class="d-flex flex-wrap m-n1">
-                            <a href="" class="btn btn-outline-primary m-1">Design</a>
-                            <a href="" class="btn btn-outline-primary m-1">Development</a>
-                            <a href="" class="btn btn-outline-primary m-1">Marketing</a>
-                            <a href="" class="btn btn-outline-primary m-1">SEO</a>
-                            <a href="" class="btn btn-outline-primary m-1">Writing</a>
-                            <a href="" class="btn btn-outline-primary m-1">Consulting</a>
-                        </div>
                     </div>
                 </div>
             </div>
