@@ -1,10 +1,10 @@
 <x-layouts.main xmlns:x-slot="http://www.w3.org/1999/xlink">
     <x-slot:title>
-        Blog details
+        Post - {{ $post->id }}
     </x-slot:title>
 
     <x-page-header>
-        Blog details
+        Post - {{ $post->id }}
     </x-page-header>
 
     <!-- Detail Start -->
@@ -12,17 +12,21 @@
         <div class="container py-5">
             <div class="row">
                 <div class="col-lg-8">
-                    <div class="row mb-4">
-                        <a class="btn btn-sum btn-outline-dark mr-2" href="{{ route('posts.edit', ['post' => $post]) }}">Edit</a>
-                        <form action="{{ route('posts.destroy', ['post' => $post]) }}"
-                              method="POST"
-                              onsubmit="return confirm('Do you really want to delete the form?');">
+                    @auth()
+                        @canany(['update', 'delete'], $post)
+                            <div class="row mb-4">
+                                <a class="btn btn-sum btn-outline-dark mr-2" href="{{ route('posts.edit', ['post' => $post]) }}">Edit</a>
+                                <form action="{{ route('posts.destroy', ['post' => $post]) }}"
+                                      method="POST"
+                                      onsubmit="return confirm('Do you really want to delete the form?');">
 
-                            <button type="submit" class="btn btn-sum btn-outline-danger" href="">Delete</button>
-                            @csrf
-                            @method('DELETE')
-                        </form>
-                    </div>
+                                    <button type="submit" class="btn btn-sum btn-outline-danger" href="">Delete</button>
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                            </div>
+                        @endcanany
+                    @endauth
                     <div class="mb-5">
                         <h6 class="text-primary mb-3">{{ $post -> created_at }}</h6>
                         <h1 class="mb-1">{{ $post -> title }}</h1>
@@ -36,7 +40,6 @@
                             <div class="d-flex mb-2">
                                 <a class="text-danger text-uppercase font-weight-medium" href="">{{ $post->category->name }}</a>
                             </div>
-                            <h1 class="section-title mb-3">{{ $post->title }}</h1>
                         </div>
                         <img class="img-fluid rounded w-100 mb-4" src="/img/carousel-1.jpg" alt="Image">
                         <p>{{ $post -> contents }}</p>
@@ -64,17 +67,24 @@
                     <!-- Comment Form -->
                     <div class="bg-secondary rounded p-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Leave a comment</h3>
-                        <form action="{{ route('comments.store') }}" method="POST">
-                            @csrf
-                            <div class="form-group">
-                                <label for="message">Comment</label>
-                                <textarea name="body" cols="30" rows="5" class="form-control border-0"></textarea>
+                        @auth()
+                            <form action="{{ route('comments.store') }}" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="message">Comment</label>
+                                    <textarea name="body" cols="30" rows="5" class="form-control border-0"></textarea>
+                                </div>
+                                <input type="hidden" name="post_id" value="{{ $post->id }}">
+                                <div class="form-group mb-0">
+                                    <input type="submit" value="Send" class="btn btn-primary py-md-2 px-md-4 font-weight-semi-bold">
+                                </div>
+                            </form>
+                        @else
+                            <div>
+                                If you want to comment
+                                <a href="{{ route('login') }}">Login</a>
                             </div>
-                            <input type="hidden" name="post_id" value="{{ $post->id }}">
-                            <div class="form-group mb-0">
-                                <input type="submit" value="Send" class="btn btn-primary py-md-2 px-md-4 font-weight-semi-bold">
-                            </div>
-                        </form>
+                        @endauth
                     </div>
                 </div>
 
@@ -82,7 +92,7 @@
                     <!-- Author Bio -->
                     <div class="d-flex flex-column text-center bg-dark rounded mb-5 py-5 px-4">
                         <img src="/img/user.jpg" class="img-fluid rounded-circle mx-auto mb-3" style="width: 100px;">
-                        <h3 class="text-primary mb-3">John Doe</h3>
+                        <h3 class="text-primary mb-3">{{ $post->user->name }}</h3>
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Tag Cloud</h3>
                         <p class="text-white m-0">Conset elitr erat vero dolor ipsum et diam, eos dolor lorem, ipsum sit
                             no ut est ipsum erat kasd amet elitr</p>

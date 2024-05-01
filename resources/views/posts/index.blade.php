@@ -33,7 +33,6 @@
                                 </div>
                             </div>
                         @endforeach
-
                         {{ $posts->links() }}
                     </div>
                 </div>
@@ -42,11 +41,10 @@
                     <!-- Author Bio -->
                     <div class="d-flex flex-column text-center bg-dark rounded mb-5 py-5 px-4">
                         <img src="/img/user.jpg" class="img-fluid rounded-circle mx-auto mb-3" style="width: 100px;">
-                        <h3 class="text-primary mb-3">John Doe</h3>
+                        <h3 class="text-primary mb-3">{{ $post->user->name }}</h3>
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Tag Cloud</h3>
                         <p class="text-white m-0">Conset elitr erat vero dolor ipsum et diam, eos dolor lorem, ipsum sit no ut est  ipsum erat kasd amet elitr</p>
                     </div>
-
                     <!-- Search Form -->
                     <div class="mb-5">
                         <form action="">
@@ -80,21 +78,16 @@
                             @endforeach
                         </div>
                     </div>
-
                     <div class="mb-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Recent Post</h3>
-
                         @foreach($recent_posts as $post)
-
                             <div class="d-flex align-items-center border-bottom mb-3 pb-3">
                                 <img class="img-fluid rounded" src="{{ asset('storage/'.$post->photo) }}" style="width: 80px; height: 80px; object-fit: cover;" alt="">
                                 <div class="d-flex flex-column pl-3">
                                     <a class="text-dark mb-2" href="{{ route('posts.show', ['post' => $post -> id]) }}">{{ $post->title }}</a>
                                 </div>
                             </div>
-
                         @endforeach
-
                     </div>
                 </div>
             </div>

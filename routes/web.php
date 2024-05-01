@@ -1,10 +1,6 @@
 <?php
 
-use App\Http\Controllers\{
-    PageController,
-    PostController,
-    CommentController
-};
+use App\Http\Controllers\{AuthController, PageController, PostController, CommentController};
 use Illuminate\Support\Facades\Route;
 
 Route::controller(PageController::class)->group(function () {
@@ -14,6 +10,13 @@ Route::controller(PageController::class)->group(function () {
     Route::get('/teacher', 'teacher')->name('teacher');
     Route::get('/contact', 'contact')->name('contact');
 });
+
+Route::get('login', [AuthController::class, 'login'])->name('login');
+Route::post('authenticate', [AuthController::class, 'authenticate'])->name('authenticate');
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('register', [AuthController::class, 'register'])->name('register');
+Route::post('register', [AuthController::class, 'register_store'])->name('register_store');
+
 
 Route::resources([
     'posts' => PostController::class,
