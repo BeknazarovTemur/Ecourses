@@ -2,30 +2,32 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Gate;
 
-class CommentController extends Controller
+class CommentController extends Controller implements HasMiddleware
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('auth', except: ['show', 'index']),
+        ];
+    }
+
     public function index()
     {
-        //
+        $comments = Comment::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('comments.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $comment = Comment::create([
@@ -36,35 +38,30 @@ class CommentController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Comment $comment)
     {
-        //
+        Gate::authorize('update', $comment);
+        return view('comments.edit', ['comment' => $comment]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Comment $comment, Request $request)
     {
-        //
+        Gate::authorize('update', $comment);
+        $comment->update([
+            'body' => $request->get('body'),
+        ]);
+
+        return redirect()->route('posts.show', ['post'=>$comment->post]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Comment $comment)
     {
-        //
+        $comment->delete();
+        return redirect()->back();
     }
 }

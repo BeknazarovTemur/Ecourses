@@ -12,6 +12,7 @@
         <div class="container py-5">
             <div class="row">
                 <div class="col-lg-8">
+        <!-- Post edit and delete -->
                     @auth()
                         @canany(['update', 'delete'], $post)
                             <div class="row mb-4">
@@ -19,7 +20,6 @@
                                 <form action="{{ route('posts.destroy', ['post' => $post]) }}"
                                       method="POST"
                                       onsubmit="return confirm('Do you really want to delete the form?');">
-
                                     <button type="submit" class="btn btn-sum btn-outline-danger" href="">Delete</button>
                                     @csrf
                                     @method('DELETE')
@@ -47,7 +47,7 @@
                         <img class="img-fluid rounded w-50 float-left mr-4 mb-3" src="{{ asset('storage/'.$post->photo) }}" alt="Image">
                         <p>{{ $post -> info }}</p>
                     </div>
-                    <!-- Comment List -->
+        <!-- Comment List -->
                     <div class="mb-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">{{ $post->comments()->count() }} Comments</h3>
                         @foreach($post->comments as $comment)
@@ -56,15 +56,29 @@
                                      style="width: 45px;">
                                 <div class="media-body">
                                     <h6> {{ $comment->user->name }} <small><i>{{ $comment->created_at }}</i></small></h6>
-                                    <p>{{ $comment->body }}</p>
+                                    <div>
+                                        <p>{{ $comment->body }}</p>
+                                        @auth()
+                                            @canany(['update', 'delete'], $comment)
+                                                <div class="row mb-4">
+                                                    <a class="btn btn-sum btn-outline-dark mr-2" href="{{ route('comments.edit', ['comment' => $comment]) }}"><i class="fas fa-edit fa-xs"></i></a>
+                                                    <form action="{{ route('comments.destroy', ['comment' => $comment]) }}"
+                                                          method="POST"
+                                                          onsubmit="return confirm('Do you really want to delete the form?');">
+                                                        <button type="submit" class="btn btn-sum btn-outline-danger" href=""><i class="fa fa-trash fa-xs" aria-hidden="true"></i></button>
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                </div>
+                                            @endcanany
+                                        @endauth
+                                    </div>
                                     <button class="btn btn-sm btn-secondary">Reply</button>
                                 </div>
                             </div>
                         @endforeach
                     </div>
-                    <br></br>
-                    <br></br>
-                    <!-- Comment Form -->
+        <!-- Comment Form -->
                     <div class="bg-secondary rounded p-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Leave a comment</h3>
                         @auth()
@@ -87,9 +101,8 @@
                         @endauth
                     </div>
                 </div>
-
                 <div class="col-lg-4 mt-5 mt-lg-0">
-                    <!-- Author Bio -->
+        <!-- Author Bio -->
                     <div class="d-flex flex-column text-center bg-dark rounded mb-5 py-5 px-4">
                         <img src="/img/user.jpg" class="img-fluid rounded-circle mx-auto mb-3" style="width: 100px;">
                         <h3 class="text-primary mb-3">{{ $post->user->name }}</h3>
@@ -97,8 +110,7 @@
                         <p class="text-white m-0">Conset elitr erat vero dolor ipsum et diam, eos dolor lorem, ipsum sit
                             no ut est ipsum erat kasd amet elitr</p>
                     </div>
-
-                    <!-- Search Form -->
+        <!-- Search Form -->
                     <div class="mb-5">
                         <form action="">
                             <div class="input-group">
@@ -110,25 +122,19 @@
                             </div>
                         </form>
                     </div>
-
-                    <!-- Recent Post -->
+        <!-- Recent Post -->
                     <div class="mb-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Recent Post</h3>
-
                         @foreach($recent_posts as $post)
-
                             <div class="d-flex align-items-center border-bottom mb-3 pb-3">
                                 <img class="img-fluid rounded" src="{{ asset('storage/'.$post->photo) }}" style="width: 80px; height: 80px; object-fit: cover;" alt="">
                                 <div class="d-flex flex-column pl-3">
                                     <a class="text-dark mb-2" href="{{route('posts.show', ['post' => $post -> id])}}">{{ $post->title }}</a>
                                 </div>
                             </div>
-
                         @endforeach
-
                     </div>
-
-                    <!-- Tag Cloud -->
+        <!-- Tag Cloud -->
                     <div class="mb-5">
                         <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Tag Cloud</h3>
                         <div class="d-flex flex-wrap m-n1">

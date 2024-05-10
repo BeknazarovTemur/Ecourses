@@ -18,7 +18,6 @@
                         <div id="success"></div>
                         <form action="{{route('posts.store')}}" method="POST" enctype="multipart/form-data">
                             @csrf
-
                             <div class="control-group mb-2">
                                 <input type="text" class="form-control border-0 p-4" name="title" value="{{ old('title') }}" placeholder="Title"/>
                                 @error('title')
@@ -33,7 +32,6 @@
                                     @endforeach
                                 </select>
                             </div>
-
                             <label>Tags</label>
                             <div class="control-group mb-4">
                                 <select name="tags[]" class="rounded border-0 p-2 w-100" multiple>

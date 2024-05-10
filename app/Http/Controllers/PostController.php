@@ -28,7 +28,7 @@ class PostController extends Controller implements HasMiddleware
             'posts' => $posts,
             'recent_posts' => Post::latest()->get()->take(3),
             'categories' => Category::all(),
-            'tags' => Tag::all()
+            'tags' => Tag::all(),
         ]);
     }
 
@@ -78,7 +78,11 @@ class PostController extends Controller implements HasMiddleware
     {
         Gate::authorize('update', $post);
 
-        return view('posts.edit')->with(['post' => $post]);
+        return view('posts.edit')->with([
+            'post' => $post,
+            'categories' => Category::all(),
+            'tags' => Tag::all(),
+        ]);
     }
 
     public function update(StorePostRequest $request, Post $post)
@@ -96,10 +100,11 @@ class PostController extends Controller implements HasMiddleware
         }
 
         $post->update([
-            'title' => $request->title,
-            'contents' => $request->contents,
-            'theme' => $request->theme,
-            'info' => $request->info,
+            'title' => $request->get('title'),
+            'category_id' => $request->get('category_id'),
+            'contents' => $request->get('contents'),
+            'theme' => $request->get('theme'),
+            'info' => $request->get('info'),
             'photo' => $path ?? null,
         ]);
 

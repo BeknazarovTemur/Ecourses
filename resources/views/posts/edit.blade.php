@@ -16,7 +16,7 @@
             <div class="col-lg-8">
                 <div class="contact-form bg-secondary rounded p-5">
                     <div id="success"></div>
-                    <form action="{{route('posts.update', ['post' => $post])}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('posts.update', ['post' => $post]) }}" method="POST" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
                         <div class="control-group mb-4">
@@ -24,6 +24,14 @@
                             @error('title')
                             <p class="help-block text-danger">{{$message}}</p>
                             @enderror
+                        </div>
+                        <label>Categories</label>
+                        <div class="control-group mb-4">
+                            <select name="category_id" class="rounded border-0 p-2 w-100">
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="control-group mb-4">
                             <input name="photo" type="file" class="form-control border-0 p-4" id="subject" placeholder="Photo"/>

@@ -11,11 +11,13 @@ Route::controller(PageController::class)->group(function () {
     Route::get('/contact', 'contact')->name('contact');
 });
 
-Route::get('login', [AuthController::class, 'login'])->name('login');
-Route::post('authenticate', [AuthController::class, 'authenticate'])->name('authenticate');
-Route::post('logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('register', [AuthController::class, 'register'])->name('register');
-Route::post('register', [AuthController::class, 'register_store'])->name('register_store');
+Route::controller(AuthController::class)->group(function () {
+    Route::get('login', 'login')->name('login');
+    Route::post('authenticate', 'authenticate')->name('authenticate');
+    Route::post('logout', 'logout')->name('logout');
+    Route::get('register', 'register')->name('register');
+    Route::post('register', 'register_store')->name('register_store');
+});
 
 
 Route::resources([

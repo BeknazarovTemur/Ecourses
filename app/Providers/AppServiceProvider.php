@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Post;
+use App\Policies\CommentPolicy;
 use App\Policies\PostPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -25,6 +26,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapFour();
 
-        Gate::policy(Post::class, PostPolicy::class);
+        Gate::policy(Post::class, PostPolicy::class, CommentPolicy::class);
     }
 }
