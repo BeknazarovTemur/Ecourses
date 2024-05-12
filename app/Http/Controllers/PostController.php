@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostProcessed;
 use App\Http\Requests\StorePostRequest;
 use App\Models\Category;
 use App\Models\Post;
@@ -61,6 +62,9 @@ class PostController extends Controller implements HasMiddleware
                 $post->tags()->attach($tag);
             }
         }
+
+        PostProcessed::dispatch($post);
+
         return redirect()->route('posts.index');
     }
 
