@@ -19,7 +19,6 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('register', 'register_store')->name('register_store');
 });
 
-
 Route::resources([
     'posts' => PostController::class,
     'comments' => CommentController::class,

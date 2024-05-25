@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Events\PostProcessed;
 use App\Http\Requests\StorePostRequest;
+use App\Jobs\ChangePost;
+use App\Jobs\SendNewPostMailJob;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
@@ -17,7 +19,7 @@ class PostController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('auth', except: ['index', 'show'])
+            new Middleware('auth', except: ['index', 'show']),
         ];
     }
 
@@ -63,7 +65,15 @@ class PostController extends Controller implements HasMiddleware
             }
         }
 
+        ChangePost::dispatch($post);
+
         PostProcessed::dispatch($post);
+
+        dispatch(new SendNewPostMailJob([
+            'email' => auth()->user()->email,
+            'name' => auth()->user()->name,
+            'title' => $post->title,
+        ]));
 
         return redirect()->route('posts.index');
     }

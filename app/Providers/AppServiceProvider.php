@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\PostProcessed;
+use App\Listeners\SendPostEmail;
 use App\Listeners\SendPostNotifaction;
 use App\Models\Post;
 use App\Policies\CommentPolicy;
